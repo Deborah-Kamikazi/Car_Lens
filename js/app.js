@@ -9,28 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterYear = document.getElementById('filter-year');
     const filterTrim = document.getElementById('filter-trim');
 
-    // Initialize Search Bar (Model Search)
+   
     initSearchBar('search-input', 'search-btn', (model) => {
         handleSearch({ model });
     });
 
-    // Filter Event Listeners
+   
     const filters = [filterMake, filterYear, filterTrim];
     filters.forEach(filter => {
-        // Use 'input' event for text fields to search as you type, 'change' for selects
+       
         const eventType = filter.tagName === 'INPUT' ? 'input' : 'change';
         filter.addEventListener(eventType, () => {
             handleSearch();
         });
     });
 
-    // Initial Load
+   
     handleSearch({});
 
     async function handleSearch(criteria = {}) {
         clearContainer(cardGrid);
 
-        // Gather all filter values
+        
         const activeFilters = {
             model: criteria.model || document.getElementById('search-input').value.trim(),
             make: filterMake.value,
