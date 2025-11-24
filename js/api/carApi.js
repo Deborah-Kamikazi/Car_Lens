@@ -187,8 +187,9 @@ function fetchMockCars(filters) {
 
                 // Model (from search bar)
                 if (filters.model) {
-                    const lowerModel = filters.model.toLowerCase();
-                    if (!basic.model.toLowerCase().includes(lowerModel)) return false;
+                    const lowerQuery = filters.model.toLowerCase();
+                    const fullName = `${basic.make} ${basic.model}`.toLowerCase();
+                    if (!fullName.includes(lowerQuery)) return false;
                 }
 
                 // Trim
@@ -207,12 +208,7 @@ function fetchMockCars(filters) {
                 (filters.year && filters.year !== '') || 
                 (filters.trim && filters.trim.trim() !== '');
 
-            // If no filters are active, limit to 6 cars. Otherwise, show all matching results.
-            if (!isFiltering) {
-                resolve(filtered.slice(0, 6));
-            } else {
-                resolve(filtered);
-            }
+            resolve(filtered);
         }, 500); // Simulate network delay
     });
 }
