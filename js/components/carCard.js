@@ -5,26 +5,38 @@
 
 /**
  * Creates a DOM element representing a car card.
- * @param {Object} car - The car data object.
+ * @param {Object} car - The car data object (new nested structure).
  * @returns {HTMLElement} - The car card element.
  */
 export function createCarCard(car) {
     const card = document.createElement('div');
     card.classList.add('car-card');
     
+    // Extract data from new structure
+    const basic = car.basic || {};
+    const specs = car.specs_and_dimension || {};
+    const powertrain = car.powertrain || {};
+    const features = car.top_features || {};
+
+    // Helper to get a few features
+    const featureList = [
+        ...(features.interior || []).slice(0, 1),
+        ...(features.entertainment || []).slice(0, 1)
+    ].join(', ');
+
     card.innerHTML = `
-        <h3>${car.make} ${car.model}</h3>
-        <p class="description">${car.year} • ${car.class}</p>
+        <h3>${basic.make} ${basic.model}</h3>
+        <p class="description">${basic.year} • ${basic.trim}</p>
         
         <div class="tags">
-            <span class="tag">${car.horsepower} HP</span>
-            <span class="tag">${car.transmission === 'a' ? 'Automatic' : 'Manual'}</span>
-            <span class="tag">${car.drive.toUpperCase()}</span>
+            <span class="tag">${powertrain.Horsepower || 'N/A'}</span>
+            <span class="tag">${basic.transmission}</span>
+            <span class="tag">${basic.drive_type}</span>
+            <span class="tag">${specs["Max seating capacity"]} Seats</span>
         </div>
 
-        <div class="footer">
-            <span class="explore-text">Explore</span>
-            <span class="arrow">→</span>
+        <div class="features-preview">
+            <strong>Highlights:</strong> ${featureList}
         </div>
     `;
 

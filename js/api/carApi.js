@@ -9,13 +9,13 @@ const RAPID_API_HOST = 'cars-by-api-ninjas.p.rapidapi.com';
 const RAPID_API_URL = 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars';
 
 /**
- * Fetches car data based on a search query (e.g., model name).
- * @param {string} query - The car model to search for.
+ * Fetches car data based on filters.
+ * @param {Object} filters - Filter criteria (make, year, drive, fuel, query).
  * @returns {Promise<Array>} - A promise that resolves to an array of car objects.
  */
-export async function fetchCars(query) {
+export async function fetchCars(filters = {}) {
     if (USE_MOCK_DATA) {
-        return fetchMockCars(query);
+        return fetchMockCars(filters);
     }
 
     if (!RAPID_API_KEY || RAPID_API_KEY === 'YOUR_RAPID_API_KEY_HERE') {
@@ -46,93 +46,147 @@ export async function fetchCars(query) {
 
 /**
  * Simulates an API call with mock data.
- * @param {string} query 
+ * @param {Object} filters 
  * @returns {Promise<Array>}
  */
-function fetchMockCars(query) {
+function fetchMockCars(filters) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            // Generate some random mock cars based on the query
+            // New detailed mock data provided by user
             const mockCars = [
                 {
-                    make: 'Toyota',
-                    model: 'Camry',
-                    year: 2023,
-                    horsepower: 203,
-                    cylinders: 4,
-                    displacement: 2.5,
-                    drive: 'fwd',
-                    transmission: 'a',
-                    class: 'midsize car',
-                    combination_mpg: 32,
-                    price_range: '$26,000 - $36,000' // Mock field
+                    "basic": {
+                        "year": 2023,
+                        "make": "Tesla",
+                        "model": "Model Y",
+                        "trim": "Performance 4Dr ALL Wheel Drive Sport Utility",
+                        "drive_type": "all-wheel",
+                        "transmission": "1 speed automatic",
+                        "recommended_fuel": "Electric"
+                    },
+                    "specs_and_dimension": {
+                        "Engine horsepower": "425hp @ RPM",
+                        "Curb weight": "2,066kg (4,555lbs)",
+                        "Max seating capacity": "7",
+                        "Wheelbase": "2,891mm (113.8\")",
+                        "Wheel size": "20\"",
+                        "Front tires": "255/45WR19.0",
+                        "Rear tires": "255/45WR19.0"
+                    },
+                    "powertrain": {
+                        "Horsepower": "425hp @ RPM",
+                        "Torque": "475 lb.-ft. @ RPM",
+                        "Drive type": "all-wheel",
+                        "Hybrid traction battery all electric range": "330 miles"
+                    },
+                    "offroad_capability": {
+                        "Ground clearance (min)": "168mm (6.6\")"
+                    },
+                    "top_features": {
+                        "interior": ["Heated Front Seats", "8-Way Power Seats"],
+                        "exterior": ["20\" Uberturbine Wheels", "Sunroof"],
+                        "entertainment": ["Premium Audio System", "Navigation System"],
+                        "safety": ["Electronic Stability Control", "Back-Up Camera"]
+                    }
                 },
                 {
-                    make: 'Honda',
-                    model: 'Civic',
-                    year: 2023,
-                    horsepower: 158,
-                    cylinders: 4,
-                    displacement: 2.0,
-                    drive: 'fwd',
-                    transmission: 'cvt',
-                    class: 'compact car',
-                    combination_mpg: 35,
-                    price_range: '$24,000 - $31,000'
+                    "basic": {
+                        "year": 2022,
+                        "make": "BMW",
+                        "model": "X5",
+                        "trim": "xDrive40i Sport Utility",
+                        "drive_type": "all-wheel",
+                        "transmission": "8-speed automatic",
+                        "recommended_fuel": "Gasoline"
+                    },
+                    "specs_and_dimension": {
+                        "Engine horsepower": "335hp @ 5,500RPM",
+                        "Curb weight": "2,250kg (4,960lbs)",
+                        "Max seating capacity": "5",
+                        "Wheelbase": "2,975mm (117.1\")",
+                        "Wheel size": "19\"",
+                        "Front tires": "275/40R19",
+                        "Rear tires": "315/35R19"
+                    },
+                    "powertrain": {
+                        "Horsepower": "335hp @ 5,500RPM",
+                        "Torque": "330 lb.-ft. @ 1,500-5,200RPM",
+                        "Drive type": "all-wheel"
+                    },
+                    "offroad_capability": {
+                        "Ground clearance (min)": "203mm (8.0\")"
+                    },
+                    "top_features": {
+                        "interior": ["Leather Seats", "Power Adjustable Front Seats"],
+                        "exterior": ["LED Headlights", "Panoramic Moonroof"],
+                        "entertainment": ["Harman Kardon Audio", "Navigation System"],
+                        "safety": ["Lane Departure Warning", "Front and Rear Parking Sensors"]
+                    }
                 },
                 {
-                    make: 'Ford',
-                    model: 'Mustang',
-                    year: 2023,
-                    horsepower: 450,
-                    cylinders: 8,
-                    displacement: 5.0,
-                    drive: 'rwd',
-                    transmission: 'm',
-                    class: 'sports car',
-                    combination_mpg: 18,
-                    price_range: '$28,000 - $56,000'
-                },
-                {
-                    make: 'Tesla',
-                    model: 'Model 3',
-                    year: 2023,
-                    horsepower: 283,
-                    cylinders: 0,
-                    displacement: 0,
-                    drive: 'rwd',
-                    transmission: 'a',
-                    class: 'electric',
-                    combination_mpg: 132,
-                    price_range: '$40,000 - $55,000'
-                },
-                {
-                    make: 'Chevrolet',
-                    model: 'Corvette',
-                    year: 2023,
-                    horsepower: 490,
-                    cylinders: 8,
-                    displacement: 6.2,
-                    drive: 'rwd',
-                    transmission: 'a',
-                    class: 'sports car',
-                    combination_mpg: 19,
-                    price_range: '$65,000 - $85,000'
+                    "basic": {
+                        "year": 2021,
+                        "make": "Audi",
+                        "model": "Q7",
+                        "trim": "55 Premium Plus SUV",
+                        "drive_type": "quattro all-wheel",
+                        "transmission": "8-speed automatic",
+                        "recommended_fuel": "Gasoline"
+                    },
+                    "specs_and_dimension": {
+                        "Engine horsepower": "335hp @ 5,200RPM",
+                        "Curb weight": "2,230kg (4,916lbs)",
+                        "Max seating capacity": "7",
+                        "Wheelbase": "2,994mm (117.9\")",
+                        "Wheel size": "20\"",
+                        "Front tires": "255/50R20",
+                        "Rear tires": "285/45R20"
+                    },
+                    "powertrain": {
+                        "Horsepower": "335hp @ 5,200RPM",
+                        "Torque": "369 lb.-ft. @ 1,370-4,500RPM",
+                        "Drive type": "quattro all-wheel"
+                    },
+                    "offroad_capability": {
+                        "Ground clearance (min)": "200mm (7.9\")"
+                    },
+                    "top_features": {
+                        "interior": ["Ventilated Seats", "Digital Cockpit"],
+                        "exterior": ["LED Headlights", "Power Tailgate"],
+                        "entertainment": ["Bang & Olufsen Audio", "Navigation System"],
+                        "safety": ["Blind Spot Monitoring", "Adaptive Cruise Assist"]
+                    }
                 }
             ];
 
-            // Filter roughly by query if provided
-            if (query) {
-                const lowerQuery = query.toLowerCase();
-                const filtered = mockCars.filter(car => 
-                    car.make.toLowerCase().includes(lowerQuery) || 
-                    car.model.toLowerCase().includes(lowerQuery)
-                );
-                // If no matches, return all (just for demo fun) or empty
-                resolve(filtered.length > 0 ? filtered : mockCars);
-            } else {
-                resolve(mockCars);
-            }
-        }, 800); // Simulate network delay
+            // Filter logic
+            const filtered = mockCars.filter(car => {
+                const basic = car.basic;
+                
+                // Query (Search Text)
+                if (filters.query) {
+                    const lowerQuery = filters.query.toLowerCase();
+                    const matchesQuery = basic.make.toLowerCase().includes(lowerQuery) || 
+                                         basic.model.toLowerCase().includes(lowerQuery);
+                    if (!matchesQuery) return false;
+                }
+
+                // Make
+                if (filters.make && basic.make !== filters.make) return false;
+
+                // Year
+                if (filters.year && basic.year.toString() !== filters.year) return false;
+
+                // Drive Type
+                if (filters.drive && !basic.drive_type.includes(filters.drive)) return false;
+
+                // Fuel Type
+                if (filters.fuel && basic.recommended_fuel !== filters.fuel) return false;
+
+                return true;
+            });
+
+            resolve(filtered);
+        }, 500); // Simulate network delay
     });
 }

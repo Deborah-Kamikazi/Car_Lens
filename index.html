@@ -26,6 +26,37 @@
                 <input type="text" id="search-input" placeholder="Search for a car (e.g., Toyota Camry)...">
                 <button id="search-btn">Search</button>
             </div>
+
+            <div class="filters-row">
+                <select id="filter-make">
+                    <option value="">All Makes</option>
+                    <option value="Tesla">Tesla</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Audi">Audi</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                </select>
+                <select id="filter-year">
+                    <option value="">All Years</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+                <select id="filter-drive">
+                    <option value="">All Drive Types</option>
+                    <option value="all-wheel">AWD</option>
+                    <option value="front-wheel">FWD</option>
+                    <option value="rear-wheel">RWD</option>
+                </select>
+                <select id="filter-fuel">
+                    <option value="">All Fuel Types</option>
+                    <option value="Electric">Electric</option>
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+            </div>
         </header>
 
         <main id="card-grid">
